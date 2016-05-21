@@ -40,6 +40,7 @@ export const styles = {
       textAlign: 'center',
       padding: '1em',
       fontSize: '2.5em',
+      cursor: 'pointer',
       backgroundColor: 'rgba(255, 255, 255, .8)',
     }
   },
@@ -54,7 +55,14 @@ export const styles = {
       fontWeight: 'bolder',
       textDecoration: 'none',
     },
-  }
+    title: {
+      color: deepPurple900,
+    }
+  },
+  socialIcon: {
+    margin: 12,
+    color: 'white',
+  },
 };
 
 

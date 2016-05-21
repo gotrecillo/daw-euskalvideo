@@ -8,10 +8,7 @@ import { styles } from './styles';
 import Slider from './slider';
 
 
-const style = {
-  margin: 12,
-  color: 'white',
-};
+
 
 const Home = ({ features, navigate, social }) => (
   <Card>
@@ -40,12 +37,15 @@ const Home = ({ features, navigate, social }) => (
             backgroundColor={socialIcon.color}
             hoverColor={socialIcon.hoverColor}
             icon={<FontIcon className={`fa fa-${socialIcon.icon}`} />}
-            style={style}
+            style={styles.socialIcon}
           />
         ))
       }
-      <p>Desarrollada por: <a style={styles.footer.link} href="https://github.com/gotrecillo">Sergio Panadero Perez</a></p>
-      <p>&copy; 2016</p>
+      <p>
+        Desarrollada por:
+        <a style={styles.footer.link} href="https://github.com/gotrecillo">Sergio Panadero Perez</a>
+        &copy; 2016
+      </p>
     </CardText>
   </Card>
 );
