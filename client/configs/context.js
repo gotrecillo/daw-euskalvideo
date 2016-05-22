@@ -4,6 +4,7 @@ import {FlowRouter} from 'meteor/kadira:flow-router';
 import {ReactiveDict} from 'meteor/reactive-dict';
 import {Tracker} from 'meteor/tracker';
 import {Roles} from 'meteor/alanning:roles';
+import Youtube from './youtube';
 
 export default function () {
   return {
@@ -13,5 +14,6 @@ export default function () {
     Collections,
     Tracker,
     Roles,
+    Youtube
   };
 }

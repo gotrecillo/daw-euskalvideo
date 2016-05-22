@@ -12,6 +12,14 @@ export default class Menu extends React.Component {
       <MenuItem primaryText="Log out" onTouchTap={logout} /> :
       <MenuItem primaryText="Log in" onTouchTap={navigate.bind(this, 'login')} />;
 
+    const VideosButton = userId ?
+      <MenuItem primaryText="Inicio" onTouchTap={navigate.bind(this, 'app')} /> :
+      null;
+
+    const NominateButton = userId ?
+      <MenuItem primaryText="Proponer" onTouchTap={navigate.bind(this, 'app/nominate')} /> :
+      null;
+
     const AdminButton = admin ?
       <MenuItem primaryText="Admin" onTouchTap={navigate.bind(this, 'login')} /> :
       null;
@@ -22,6 +30,8 @@ export default class Menu extends React.Component {
         anchorOrigin={{horizontal: 'left', vertical: 'top'}}
         targetOrigin={{horizontal: 'left', vertical: 'top'}}
       >
+        { VideosButton }
+        { NominateButton}
         { AdminButton }
         { LogButton }
       </IconMenu>

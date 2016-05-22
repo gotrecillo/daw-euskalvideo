@@ -6,7 +6,7 @@ export default {
       if (err) {
         return LocalState.set('LOGIN_ERROR', 'Credenciales erroneas');
       }
-      FlowRouter.go('/');
+      FlowRouter.go('/app');
     });
   },
 
@@ -25,12 +25,14 @@ export default {
       if (err) {
         return LocalState.set('LOGIN_ERROR', `Error en el login con ${provider}`);
       }
-      FlowRouter.go('/');
+      FlowRouter.go('/app');
     });
   },
 
-  logout({Meteor}) {
-    Meteor.logout();
+  logout({Meteor, FlowRouter}) {
+    Meteor.logout(() => {
+      FlowRouter.go('/login');
+    });
   },
 
   clearErrors({LocalState}) {

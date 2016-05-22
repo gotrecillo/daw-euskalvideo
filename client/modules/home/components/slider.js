@@ -13,14 +13,17 @@ export default class Slider extends React.Component {
 
   componentWillMount() {
     this._updateDimensions();
+
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.state.resizeHandler);
+    const { resizeHandler } = this.state;
+    window.addEventListener('resize', resizeHandler);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.state.resizeHandler);
+    const { resizeHandler } = this.state;
+    window.removeEventListener('resize', resizeHandler);
   }
 
   _updateDimensions() {
@@ -32,8 +35,9 @@ export default class Slider extends React.Component {
   }
 
   render() {
+    const { height } = this.state;
     return (
-      <CardText style={getSliderStyles(this.state.height)}>
+      <CardText style={getSliderStyles(height)}>
         <Paper
           onTouchTap={this._handleTouchTap.bind(this)}
           style={styles.slider.paper}

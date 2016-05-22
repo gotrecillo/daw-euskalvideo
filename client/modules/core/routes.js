@@ -8,7 +8,8 @@ import HomeLayout from './components/home_layout';
 import Login from '../users/containers/login';
 import Post from './containers/post';
 import NewPost from './containers/newpost';
-// import FeaturedVideos from './containers/featured_videos';
+import FeaturedVideos from './containers/featured_videos';
+import VideoSearcher from '../videos/containers/video_searcher';
 import Home from '../home/containers/home';
 
 export default function (injectDeps, {FlowRouter, Meteor}) {
@@ -24,11 +25,39 @@ export default function (injectDeps, {FlowRouter, Meteor}) {
     }
   });
 
+  FlowRouter.route('/app', {
+    name: 'app',
+    triggersEnter: [ function (context, redirect) {
+      if (!Meteor.userId()) {
+        redirect('/login');
+      }
+    } ],
+    action() {
+      mount(MainLayoutCtx, {
+        content: () => (<FeaturedVideos />)
+      });
+    }
+  });
+
+  FlowRouter.route('/app/nominate', {
+    name: 'app',
+    triggersEnter: [ function (context, redirect) {
+      if (!Meteor.userId()) {
+        redirect('/login');
+      }
+    } ],
+    action() {
+      mount(MainLayoutCtx, {
+        content: () => (<VideoSearcher />)
+      });
+    }
+  });
+
   FlowRouter.route('/login', {
     name: 'users.login',
     triggersEnter: [ function (context, redirect) {
       if (Meteor.userId()) {
-        redirect('/');
+        redirect('/app');
       }
     } ],
     action() {
