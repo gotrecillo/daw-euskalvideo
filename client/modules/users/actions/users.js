@@ -25,7 +25,7 @@ export default {
       if (err) {
         return LocalState.set('LOGIN_ERROR', `Error en el login con ${provider}`);
       }
-      FlowRouter.go('/app');
+      // FlowRouter.go('/app');
     });
   },
 

@@ -18,6 +18,11 @@ export default class Login extends React.Component {
     super(props);
   }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.userId) {
+      this.props.navigate('/app');
+    }
+  }
   _handleLogIn() {
     const isValid = () => this._validate();
     const userName = this.refs.user.getValue();
@@ -63,6 +68,7 @@ export default class Login extends React.Component {
     return (
       <RaisedButton
         key={provider}
+        style={{margin: '0.5em 0', width: '220px'}}
         backgroundColor={color}
         labelStyle={{color: 'white'}}
         label={`Log in with ${capitalize(provider)}`}
@@ -76,45 +82,47 @@ export default class Login extends React.Component {
   render() {
     const { providers, inputs, error } = this.props;
     return (
-      <Card style={styles.card}>
-        <CardTitle
-          title="Welcome to Euskal Videos"
-          titleColor={'orange'}
-          style={{textAlign: 'center'}}
-        />
-        <CardText style={{textAlign: 'center'}}>
-          <img src="http://www.euskal.org/templates/gk_game/images/logo.png" alt="euskalMovies-logo"/>
-        </CardText>
-        <CardText>
-          {
-            inputs.map(input => (
-              <TextField
-                key={input.ref}
-                ref={input.ref}
-                type={input.type}
-                floatingLabelText={input.label}
-                floatingLabelFixed
-                fullWidth
-                onFocus={this._handleInputFocus.bind(this, input.ref)}
-              />
-            ))
-          }
-        </CardText>
-        <CardText style={{textAlign: 'center', color: 'red'}}>
-          {error}
-        </CardText>
-        <CardText style={{textAlign: 'center'}}>
-          <RaisedButton
-            label="Log In"
-            onTouchTap={throttle(this._handleLogIn).bind(this)}
-            primary/>
-        </CardText>
-        <CardActions style={{textAlign: 'center'}}>
-          {
-            providers.map(provider => this._getProviderButton(provider.provider, provider.color))
-          }
-        </CardActions>
-      </Card>
+      <div style={{padding: '1em'}}>
+        <Card style={styles.card}>
+          <CardTitle
+            title="Welcome to Euskal Videos"
+            titleColor={'orange'}
+            style={{textAlign: 'center'}}
+          />
+          <CardText style={{textAlign: 'center'}}>
+            <img src="http://www.euskal.org/templates/gk_game/images/logo.png" alt="euskalMovies-logo"/>
+          </CardText>
+          <CardText>
+            {
+              inputs.map(input => (
+                <TextField
+                  key={input.ref}
+                  ref={input.ref}
+                  type={input.type}
+                  floatingLabelText={input.label}
+                  floatingLabelFixed
+                  fullWidth
+                  onFocus={this._handleInputFocus.bind(this, input.ref)}
+                />
+              ))
+            }
+          </CardText>
+          <CardText style={{textAlign: 'center', color: 'red'}}>
+            {error}
+          </CardText>
+          <CardText style={{textAlign: 'center'}}>
+            <RaisedButton
+              label="Log In"
+              onTouchTap={throttle(this._handleLogIn).bind(this)}
+              primary/>
+          </CardText>
+          <CardActions style={{textAlign: 'center'}}>
+            {
+              providers.map(provider => this._getProviderButton(provider.provider, provider.color))
+            }
+          </CardActions>
+        </Card>
+      </div>
     );
   }
 

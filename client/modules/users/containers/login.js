@@ -3,15 +3,18 @@ import Component from '../components/login';
 import configs from '../configs';
 
 export const composer = ({context, clearErrors}, onData) => {
-  const {LocalState} = context();
+  const {LocalState, Meteor} = context();
   const error = LocalState.get('LOGIN_ERROR');
-  onData(null, {error});
+  const userId = Meteor.userId();
+  const logging = Meteor.loggingIn();
+  onData(null, {error, userId, logging});
 
   return clearErrors;
 };
 
 export const depsMapper = (context, actions) => ({
   logInWith: actions.users.logInWith,
+  navigate: actions.navigate.navigate,
   logIn: actions.users.logIn,
   clearErrors: actions.users.clearErrors,
   context: () => context,

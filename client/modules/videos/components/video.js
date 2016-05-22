@@ -9,6 +9,15 @@ import logo from '../configs/logo64';
 
 const styles = {
   dialog: { textAlign: 'center' },
+  getCardStyle: deviceWidth => {
+    const cardWidth = deviceWidth > 400 ? 400 : deviceWidth - 30;
+    const minHeight = deviceWidth > 850 ? '450px' : 0;
+    return {
+      margin: '1em',
+      width: `${cardWidth}px`,
+      minHeight
+    };
+  },
 };
 
 class Video extends React.Component {
@@ -123,26 +132,29 @@ class Video extends React.Component {
 
   render() {
     const { video } = this.props;
+    const { width } = this.state;
     return (
       <div>
-      <Card style={{margin: '1em', width: '400px', minHeight: '450px'}}>
-         <CardMedia
-          overlay={<CardTitle title={truncate(video.title, {separator: ' '})} />}
-          >
-          <ImageWithPlaceholder
-            src={video.image}
-            placeholderSrc={logo}
-            alt="youtube thumb image"
-            />
-        </CardMedia>
-        <CardText>
-        {video.description}
-        </CardText>
-        <CardActions>
-          <FlatButton label="Ver" onTouchTap={this._handleShowVideo.bind(this)} />
-          <FlatButton label="Nominar" onTouchTap={this._handleNominate.bind(this)}/>
-        </CardActions>
-      </Card>
+        <Card style={styles.getCardStyle(width)}>
+           <CardMedia
+            overlay={<CardTitle title={truncate(video.title, {separator: ' '})} />}
+            >
+            <ImageWithPlaceholder
+              src={video.image}
+              placeholderSrc={logo}
+              alt="youtube thumb image"
+              />
+          </CardMedia>
+          <CardText>
+            <div style={{overflowX: 'auto', padding: '5px 0 5px 5px', borderRight: 'solid 5px rgba(0,0,0,0)'}}>
+              {video.description}
+            </div>
+          </CardText>
+          <CardActions>
+            <FlatButton label="Ver" onTouchTap={this._handleShowVideo.bind(this)} />
+            <FlatButton label="Nominar" onTouchTap={this._handleNominate.bind(this)}/>
+          </CardActions>
+        </Card>
         { (() => this._getPreview())() }
         { (() => this._getNominateDialog())() }
       </div>

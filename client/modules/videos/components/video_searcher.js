@@ -18,7 +18,7 @@ const styles = {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    marginTop: '4em',
+    marginTop: '3em',
   },
   video: {
     flexGrow: '0',
