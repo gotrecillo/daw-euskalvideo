@@ -2,6 +2,10 @@
 
 This app is written following [Mantra](https://github.com/kadirahq/mantra) covering core features of it.
 
+## Demo
+[EuskalVideos](http://daw-euskalvideos.herokuapp.com)
+To deploy to heroku you can use this [BuildPack](https://github.com/gotrecillo/meteor-buildpack-horse)
+
 ### Setting Up
 
 * Clone this repo
