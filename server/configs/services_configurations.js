@@ -10,7 +10,7 @@ export default function () {
       {
         service: 'twitter',
         consumerKey: 'aY3nlmhqbJ5pnp8UysIJcdp10',
-        loginStyle: 'popup',
+        loginStyle: 'redirect',
         secret: 'wMDAf0kwweI1OvOKL06pD0u2se25A4xgabZtGehYjGMH6CEl3B'
       },
       { upsert: true }
@@ -21,6 +21,7 @@ export default function () {
       {
         service: 'facebook',
         appId: '1120043108059273',
+        loginStyle: 'redirect',
         secret: '01fa6b911b08ea1863e7c5728e39ac3b'
       },
       { upsert: true}
@@ -30,6 +31,7 @@ export default function () {
       { service: 'google' },
       {
         service: 'google',
+        loginStyle: 'redirect',
         clientId: '815961498716-shif5kse7n5jculjmr76hh4er5k3bi76.apps.googleusercontent.com',
         secret: 'UUUhPbf8Y32bQJVbGByZc4CK'
       },
