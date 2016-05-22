@@ -8,7 +8,7 @@ import HomeLayout from './components/home_layout';
 import Login from '../users/containers/login';
 import Post from './containers/post';
 import NewPost from './containers/newpost';
-import FeaturedVideos from './containers/featured_videos';
+import NominationsList from '../videos/containers/nominations_list';
 import VideoSearcher from '../videos/containers/video_searcher';
 import Home from '../home/containers/home';
 
@@ -34,7 +34,7 @@ export default function (injectDeps, {FlowRouter, Meteor}) {
     } ],
     action() {
       mount(MainLayoutCtx, {
-        content: () => (<FeaturedVideos />)
+        content: () => (<NominationsList />)
       });
     }
   });

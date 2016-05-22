@@ -7,25 +7,7 @@ import Snackbar from 'material-ui/Snackbar';
 import Video from '../containers/video';
 import Spinner from '../../core/components/spinner';
 import { debounce } from 'lodash';
-
-const styles = {
-  paper: { padding: '1em 1em 2em 1em' },
-  container: { display: 'flex', justifyContent: 'center' },
-  fontIcon: { lineHeight: '2em', marginRight: '1em' },
-  textInput: { flexGrow: '20' },
-  videoContainer: {
-    alignItems: 'center',
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    marginTop: '3em',
-  },
-  video: {
-    flexGrow: '0',
-    margin: '1em',
-    width: '400px',
-  },
-};
+import { styles } from './styles';
 
 export default class VideoSearcher extends React.Component {
   constructor(props) {

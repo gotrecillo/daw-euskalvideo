@@ -3,12 +3,13 @@ import {Meteor} from 'meteor/meteor';
 import {check} from 'meteor/check';
 
 export default function () {
-  Meteor.publish('nominations.list', function () {
+  Meteor.publish('nominations.list', function (limit) {
+    check(limit, Number);
     const selector = {};
     const options = {
-      fields: {_id: 1, title: 1},
+      fields: {_id: 1, title: 1, likes: 1, createdAt: 1, creator: 1, youtubeId: 1, comment: 1, image: 1},
       sort: {createdAt: -1},
-      limit: 10
+      limit
     };
 
     return Nominations.find(selector, options);
