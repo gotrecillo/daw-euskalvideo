@@ -21,9 +21,21 @@ export const styles = {
     justifyContent: 'center',
     marginTop: '3em',
   },
+  nominationsContainer: {
+    alignItems: 'center',
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
   video: {
     flexGrow: '0',
     margin: '1em',
     width: '400px',
+  },
+  toolbar: {
+    alignItems: 'center',
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
   },
 };

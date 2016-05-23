@@ -7,7 +7,7 @@ export default function () {
       featured: 1
     };
     const options = {
-      fields: {_id: 1, title: 1},
+      fields: {_id: 1, title: 1, likes: 1},
       sort: {createdAt: -1},
       limit: 10
     };

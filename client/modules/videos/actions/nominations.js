@@ -11,9 +11,25 @@ export default {
     });
   },
 
+  like({Meteor}, idNomination) {
+    Meteor.call('nominations.like', idNomination);
+  },
+
+  unlike({Meteor}, idNomination) {
+    Meteor.call('nominations.unlike', idNomination);
+  },
+
   loadMoreNominations({LocalState}) {
     const nominationsShown = LocalState.get('NOMINATIONS_SHOWN') || 10;
     LocalState.set('NOMINATIONS_SHOWN', nominationsShown + 10);
+  },
+
+  sortByDate({LocalState}) {
+    LocalState.set('NOMINATIONS_SORT', {createdAt: -1});
+  },
+
+  sortByLikes({LocalState}) {
+    LocalState.set('NOMINATIONS_SORT', {likes: -1});
   },
 
   clearCreatedNominationFlag({LocalState}) {

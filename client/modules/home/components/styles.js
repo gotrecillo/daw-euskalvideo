@@ -54,6 +54,7 @@ export const styles = {
       color: deepOrange800,
       fontWeight: 'bolder',
       textDecoration: 'none',
+      margin: '0 0.5em',
     },
     title: {
       color: deepPurple900,

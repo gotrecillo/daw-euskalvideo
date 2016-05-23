@@ -1,6 +1,10 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
-import NominatedVideo from './nominated_video';
+import IconMenu from 'material-ui/IconMenu';
+import IconButton from 'material-ui/IconButton';
+import MenuItem from 'material-ui/MenuItem';
+import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
+import NominatedVideo from '../containers/nominated_video';
 import {styles} from './styles';
 import { getDocHeight } from '../../../utils';
 
@@ -28,16 +32,29 @@ export default class NominationsList extends React.Component {
   }
 
   render() {
-    const { nominations } = this.props;
+    const { nominations, sortByDate, sortByLikes } = this.props;
     return (
+      <div>
+        <Toolbar style={styles.toolbar}>
+          <ToolbarGroup style={{marginRight: '-14px'}} >
+            <IconMenu
+              iconButtonElement={
+                <IconButton touch iconClassName="fa fa-sort" />
+                }
+            >
+              <MenuItem onTouchTap={sortByDate} primaryText="Más nuevos" />
+              <MenuItem onTouchTap={sortByLikes} primaryText="Más votados" />
+            </IconMenu>
+          </ToolbarGroup>
+        </Toolbar>
       <Paper>
-        <div style={styles.videoContainer}>
+        <div style={styles.nominationsContainer}>
           {
-            nominations.map(video => (<NominatedVideo key={video._id} video={video} />))
+            nominations.map(video => (<NominatedVideo key={video._id} idNomination={video._id} video={video} />))
           }
         </div>
       </Paper>
+      </div>
     );
   }
 }
-

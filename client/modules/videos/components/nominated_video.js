@@ -1,7 +1,9 @@
 import React from 'react';
 import { Card, CardActions } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import FontIcon from 'material-ui/FontIcon';
 import VideoCore from './video_core';
+import Avatar from 'material-ui/Avatar';
 import { styles } from './styles';
 
 
@@ -10,7 +12,6 @@ class NominatedVideo extends React.Component {
     super(props);
     this.state = {
       watchingVideo: false,
-      nominating: false,
       resizeHandler: this._updateDimensions.bind(this)
     };
   }
@@ -38,10 +39,18 @@ class NominatedVideo extends React.Component {
     this.setState({ [key]: value});
   }
 
+  _handleLike() {
+    const { like, unlike, liked, idNomination} = this.props;
+    return liked ? unlike(idNomination) : like(idNomination);
+  }
+
   render() {
-    const { video } = this.props;
+    const { video, liked } = this.props;
     const { width, height, watchingVideo } = this.state;
     const fullWidhtDialog = height > width;
+    const { likes } = video;
+    const formatedLikes = likes === 0 ? 0 : `+${likes}`;
+    const likeIcon = liked ? 'fa fa-thumbs-up' : 'fa fa-thumbs-o-up';
     return (
       <div>
         <Card style={styles.getCardStyle(width)}>
@@ -51,9 +60,17 @@ class NominatedVideo extends React.Component {
             watchingVideo={watchingVideo}
             closeHandler={this._handleStateChange.bind(this, 'watchingVideo', false)}
           />
-          <CardActions>
+          <CardActions style={{textAlign: 'right'}}>
             <FlatButton label="Ver" onTouchTap={this._handleStateChange.bind(this, 'watchingVideo', true)} />
-            <FlatButton label="Nominar" onTouchTap={this._handleStateChange.bind(this, 'nominating', true)}/>
+            <FlatButton
+              onTouchTap={this._handleLike.bind(this)}
+              icon={<FontIcon className={likeIcon} />}
+            />
+            <Avatar
+              size={30}
+            >
+            {formatedLikes}
+            </Avatar>
           </CardActions>
         </Card>
       </div>

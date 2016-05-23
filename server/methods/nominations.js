@@ -1,4 +1,4 @@
-import {Nominations} from '/lib/collections';
+import {Nominations, Likes} from '/lib/collections';
 import {Meteor} from 'meteor/meteor';
 import {check} from 'meteor/check';
 
@@ -13,13 +13,27 @@ export default function () {
       check(comment, String);
       check(youtubeId, String);
       check(userId, String);
-      // Demo the latency compensations (Delete this in production)
-      // Meteor._sleepForMs(500);
 
-      // XXX: Do some user authorization
       const createdAt = new Date();
       const nomination = {_id, title, comment, youtubeId, createdAt, creator: userId, likes: 0, image};
       Nominations.insert(nomination);
-    }
+    },
+
+    'nominations.like'(idNomination) {
+      const userId = Meteor.userId();
+      check(idNomination, String);
+
+      const like = {idNomination, userId};
+      Likes.insert(like);
+    },
+
+    'nominations.unlike'(idNomination) {
+      const userId = Meteor.userId();
+      check(idNomination, String);
+
+      const like = {idNomination, userId};
+      Likes.remove(like);
+    },
+
   });
 }

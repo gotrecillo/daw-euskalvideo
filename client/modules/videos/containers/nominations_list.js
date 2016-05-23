@@ -11,9 +11,10 @@ const formatNomination = nomination => {
 export const composer = ({context, clearErrors}, onData) => {
   const {Meteor, Collections, LocalState} = context();
   const limit = LocalState.get('NOMINATIONS_SHOWN') || 10;
-  if (Meteor.subscribe('nominations.list', limit).ready()) {
+  const sort = LocalState.get('NOMINATIONS_SORT') || {createdAt: -1};
+  if (Meteor.subscribe('nominations.list', limit, sort).ready()) {
     const options = {
-      sort: {createdAt: -1},
+      sort,
       limit,
     };
     const nominations = Collections.Nominations.find({}, options).fetch();
@@ -26,6 +27,8 @@ export const composer = ({context, clearErrors}, onData) => {
 export const depsMapper = (context, actions) => ({
   loadMoreNominations: actions.nominations.loadMoreNominations,
   clearErrors: actions.nominations.clearErrors,
+  sortByLikes: actions.nominations.sortByLikes,
+  sortByDate: actions.nominations.sortByDate,
   context: () => context
 });
 

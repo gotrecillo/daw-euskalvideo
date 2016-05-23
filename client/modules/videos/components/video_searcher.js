@@ -12,7 +12,7 @@ import { styles } from './styles';
 export default class VideoSearcher extends React.Component {
   constructor(props) {
     super(props);
-    const search = debounce(props.search, 300);
+    const search = debounce(props.search, 1000);
     this.state = { searchTerm: '', search };
   }
 

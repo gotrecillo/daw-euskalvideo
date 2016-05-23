@@ -68,7 +68,7 @@ export default class Login extends React.Component {
     return (
       <RaisedButton
         key={provider}
-        style={{margin: '0.5em 0', width: '220px'}}
+        style={{margin: '0.5em 1em', width: '220px'}}
         backgroundColor={color}
         labelStyle={{color: 'white'}}
         label={`Log in with ${capitalize(provider)}`}
