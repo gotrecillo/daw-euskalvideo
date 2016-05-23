@@ -3,6 +3,15 @@ import {Meteor} from 'meteor/meteor';
 import {check} from 'meteor/check';
 
 export default function () {
+  const getRandomId = () => {
+    const totalNominations = Nominations.find().count();
+    const random = Math.floor(Random.fraction() * totalNominations);
+    const nomination = Nominations.findOne({},{
+      skip: random
+    });
+    return nomination && nomination._id;
+  };
+
   Meteor.publish('nominations.list', function (limit, sort) {
     check(limit, Number);
     check(sort, Object);
@@ -15,4 +24,12 @@ export default function () {
 
     return Nominations.find(selector, options);
   });
+
+  Meteor.publish('nominations.random',function (random) {
+    // We pass a random number so the pub/sub under the hood doesnt get cached
+    check(random, Number);
+    const _id = getRandomId();
+    return Nominations.findOne(_id);
+  });
+
 }

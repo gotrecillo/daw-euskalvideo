@@ -6,6 +6,7 @@ import coreModule from './modules/core';
 import commentsModule from './modules/comments';
 import usersModule from './modules/users';
 import videos from './modules/videos';
+import dashboard from './modules/dashboard';
 
 // init context
 const context = initContext();
@@ -16,4 +17,5 @@ app.loadModule(coreModule);
 app.loadModule(usersModule);
 app.loadModule(commentsModule);
 app.loadModule(videos);
+app.loadModule(dashboard);
 app.init();

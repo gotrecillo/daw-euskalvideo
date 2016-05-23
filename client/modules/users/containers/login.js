@@ -1,4 +1,5 @@
 import { useDeps, composeWithTracker, composeAll } from 'mantra-core';
+import Spinner from '../../core/components/spinner';
 import Component from '../components/login';
 import configs from '../configs';
 
@@ -23,6 +24,6 @@ export const depsMapper = (context, actions) => ({
 });
 
 export default composeAll(
-  composeWithTracker(composer),
+  composeWithTracker(composer, Spinner),
   useDeps(depsMapper)
 )(Component);

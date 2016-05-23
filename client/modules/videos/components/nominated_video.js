@@ -3,7 +3,6 @@ import { Card, CardActions } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import VideoCore from './video_core';
-import Avatar from 'material-ui/Avatar';
 import { styles } from './styles';
 
 
@@ -66,11 +65,9 @@ class NominatedVideo extends React.Component {
               onTouchTap={this._handleLike.bind(this)}
               icon={<FontIcon className={likeIcon} />}
             />
-            <Avatar
-              size={30}
-            >
+            <span>
             {formatedLikes}
-            </Avatar>
+            </span>
           </CardActions>
         </Card>
       </div>

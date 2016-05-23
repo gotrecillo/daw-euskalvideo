@@ -19,7 +19,7 @@ const VideoCore = ({video, fullWidhtDialog, watchingVideo, closeHandler}) => (
         />
     </CardMedia>
     <CardText>
-      <div style={{overflowX: 'auto', padding: '5px 0 5px 5px', borderRight: 'solid 5px rgba(0,0,0,0)'}}>
+      <div style={styles.videoDescription}>
         {video.description}
       </div>
     </CardText>

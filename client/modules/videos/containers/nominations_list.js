@@ -1,5 +1,6 @@
 import { useDeps, composeWithTracker, composeAll } from 'mantra-core';
 import Component from '../components/nominations_list';
+import Spinner from '../../core/components/spinner';
 
 const formatNomination = nomination => {
   return Object.assign({}, nomination, {
@@ -34,6 +35,6 @@ export const depsMapper = (context, actions) => ({
 
 
 export default composeAll(
-  composeWithTracker(composer),
+  composeWithTracker(composer, Spinner),
   useDeps(depsMapper)
 )(Component);

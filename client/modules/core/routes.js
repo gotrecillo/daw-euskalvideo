@@ -10,6 +10,7 @@ import Post from './containers/post';
 import NewPost from './containers/newpost';
 import NominationsList from '../videos/containers/nominations_list';
 import VideoSearcher from '../videos/containers/video_searcher';
+import Dashboard from '../dashboard/containers/dashboard';
 import Home from '../home/containers/home';
 
 export default function (injectDeps, {FlowRouter, Meteor}) {
@@ -27,6 +28,20 @@ export default function (injectDeps, {FlowRouter, Meteor}) {
 
   FlowRouter.route('/app', {
     name: 'app',
+    triggersEnter: [ function (context, redirect) {
+      if (!Meteor.userId()) {
+        redirect('/login');
+      }
+    } ],
+    action() {
+      mount(MainLayoutCtx, {
+        content: () => (<Dashboard />)
+      });
+    }
+  });
+
+  FlowRouter.route('/app/nominations', {
+    name: 'nominations',
     triggersEnter: [ function (context, redirect) {
       if (!Meteor.userId()) {
         redirect('/login');

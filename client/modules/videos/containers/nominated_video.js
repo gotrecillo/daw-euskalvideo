@@ -1,5 +1,6 @@
 import { useDeps, composeWithTracker, composeAll } from 'mantra-core';
 import Component from '../components/nominated_video';
+import React from 'react';
 
 export const composer = ({context, clearErrors, idNomination}, onData) => {
   const {Meteor, Collections} = context();
@@ -19,7 +20,9 @@ export const depsMapper = (context, actions) => ({
   context: () => context
 });
 
+const loading = () => <span></span>;
+
 export default composeAll(
-  composeWithTracker(composer),
+  composeWithTracker(composer, loading),
   useDeps(depsMapper)
 )(Component);

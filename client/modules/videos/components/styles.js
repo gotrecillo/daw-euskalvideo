@@ -21,6 +21,11 @@ export const styles = {
     justifyContent: 'center',
     marginTop: '3em',
   },
+  videoDescription: {
+    overflowX: 'auto',
+    padding: '5px 0 5px 5px',
+    borderRight: 'solid 5px rgba(0,0,0,0)',
+  },
   nominationsContainer: {
     alignItems: 'center',
     display: 'flex',
@@ -37,5 +42,8 @@ export const styles = {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'flex-end',
+  },
+  toolbarGroup: {
+    marginRight: '-14px',
   },
 };

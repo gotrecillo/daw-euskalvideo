@@ -36,7 +36,7 @@ export default class NominationsList extends React.Component {
     return (
       <div>
         <Toolbar style={styles.toolbar}>
-          <ToolbarGroup style={{marginRight: '-14px'}} >
+          <ToolbarGroup style={styles.toolbarGroup} >
             <IconMenu
               iconButtonElement={
                 <IconButton touch iconClassName="fa fa-sort" />

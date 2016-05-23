@@ -6,6 +6,7 @@ import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
 import Video from '../containers/video';
 import Spinner from '../../core/components/spinner';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
 import { debounce } from 'lodash';
 import { styles } from './styles';
 
@@ -19,17 +20,19 @@ export default class VideoSearcher extends React.Component {
   _handleKeyDown(e) {
     if (e.keyCode === 27) {
       this.refs.search.blur();
-      this.setState({ searchTerm: ''});
+    }
+    if (e.keyCode === 13) {
+      this.refs.search.blur();
+      this._searchTerm.bind(this)();
     }
   }
 
-  _handleSearchFocus() {
-    this.setState({ searchTerm: '' });
+  _handleSearchTap() {
+    this._searchTerm.bind(this)();
   }
 
-  _handleSearchChange() {
+  _searchTerm() {
     const searchTerm = this.refs.search.getValue();
-    this.setState({ searchTerm });
     this.state.search(searchTerm);
   }
 
@@ -39,7 +42,6 @@ export default class VideoSearcher extends React.Component {
   }
 
   render() {
-    const { searchTerm } = this.state;
     const { searchedVideos, searching, nominated } = this.props;
 
     return (
@@ -49,13 +51,15 @@ export default class VideoSearcher extends React.Component {
             <FontIcon style={styles.fontIcon} className="fa fa-search" />
             <TextField
               ref="search"
-              value={searchTerm}
               style={styles.textInput}
               hintText="Busca un video"
-              onChange={this._handleSearchChange.bind(this)}
-              onFocus={this._handleSearchFocus.bind(this)}
               onKeyDown={this._handleKeyDown.bind(this)}
             />
+          </CardText>
+          <CardText style={styles.container}>
+            <FloatingActionButton onTouchTap={this._handleSearchTap.bind(this)}>
+              <FontIcon className="fa fa-search" />
+            </FloatingActionButton>
           </CardText>
         </Card>
         <div style={styles.videoContainer}>

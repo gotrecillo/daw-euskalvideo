@@ -20,6 +20,10 @@ export default class Menu extends React.Component {
       <MenuItem primaryText="Proponer" onTouchTap={navigate.bind(this, 'app/nominate')} /> :
       null;
 
+    const NominationsButton = userId ?
+      <MenuItem primaryText="Nominaciones" onTouchTap={navigate.bind(this, 'app/nominations')} /> :
+      null;
+
     const AdminButton = admin ?
       <MenuItem primaryText="Admin" onTouchTap={navigate.bind(this, 'login')} /> :
       null;
@@ -31,7 +35,8 @@ export default class Menu extends React.Component {
         targetOrigin={{horizontal: 'left', vertical: 'top'}}
       >
         { VideosButton }
-        { NominateButton}
+        { NominateButton }
+        { NominationsButton }
         { AdminButton }
         { LogButton }
       </IconMenu>
