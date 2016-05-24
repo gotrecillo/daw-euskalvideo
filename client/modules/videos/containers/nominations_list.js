@@ -20,12 +20,7 @@ export const composer = ({context, clearErrors}, onData) => {
     onData(null, {nominations: formatedNominations, loadedNominations: formatedNominations.length});
   }
 
-  const cleanUp = () => {
-    clearErrors();
-    subscription.stop();
-  };
-
-  return cleanUp;
+  return clearErrors;
 };
 
 export const counterComposer = ({context, clearErrors}, onData) => {

@@ -5,9 +5,9 @@ import { formatNomination } from '../../videos/utils';
 
 const suscribeToRandomNominations = (Meteor, Nominations, onData) => (
   Meteor.subscribe('nominations.random', Random.fraction(), function () {
-    const nominations = Nominations.find().fetch();
-    const formatedNominations = nominations.map(formatNomination);
-    onData(null, {nomination: formatedNominations});
+    const nomination = Nominations.findOne();
+    const formatedNomination = formatNomination(nomination);
+    onData(null, {nomination: formatedNomination});
   }));
 
 export const composer = ({context, clearErrors}, onData) => {
