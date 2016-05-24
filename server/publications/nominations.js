@@ -32,4 +32,8 @@ export default function () {
     return Nominations.find({_id},{fields: {_id: 1, title: 1, likes: 1, createdAt: 1, creator: 1, youtubeId: 1, comment: 1, image: 1}});
   });
 
+  Meteor.publish('nominations.count',function () {
+    /* global Counts:true */
+    Counts.publish(this, 'nominations', Nominations.find());
+  });
 }

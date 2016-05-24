@@ -23,6 +23,9 @@ export default function () {
       const userId = Meteor.userId();
       check(idNomination, String);
 
+      // DEMO
+      Meteor._sleepForMs(2000);
+
       const like = {idNomination, userId};
       Likes.insert(like);
     },

@@ -22,12 +22,14 @@ export const styles = {
     marginTop: '3em',
   },
   videoDescription: {
-    overflowX: 'auto',
+    overflow: 'auto',
     padding: '5px 0 5px 5px',
+    height: '60px',
     borderRight: 'solid 5px rgba(0,0,0,0)',
   },
   nominationsContainer: {
     alignItems: 'center',
+    padding: '0 0 7em 0',
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
@@ -46,4 +48,11 @@ export const styles = {
   toolbarGroup: {
     marginRight: '-14px',
   },
+  loadMoreContainer: {
+    alignItems: 'center',
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    margin: '1em',
+  }
 };
