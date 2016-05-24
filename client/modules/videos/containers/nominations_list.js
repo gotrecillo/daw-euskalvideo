@@ -1,13 +1,7 @@
 import { useDeps, composeWithTracker, composeAll } from 'mantra-core';
 import Component from '../components/nominations_list';
 import Spinner from '../../core/components/spinner';
-
-const formatNomination = nomination => {
-  return Object.assign({}, nomination, {
-    id: nomination.youtubeId,
-    description: nomination.comment
-  });
-};
+import { formatNomination } from '../utils';
 
 export const composer = ({context, clearErrors}, onData) => {
   const {Meteor, Collections, LocalState} = context();

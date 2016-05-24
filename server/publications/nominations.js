@@ -2,16 +2,16 @@ import {Nominations} from '/lib/collections';
 import {Meteor} from 'meteor/meteor';
 import {check} from 'meteor/check';
 
-export default function () {
-  const getRandomId = () => {
-    const totalNominations = Nominations.find().count();
-    const random = Math.floor(Random.fraction() * totalNominations);
-    const nomination = Nominations.findOne({},{
-      skip: random
-    });
-    return nomination && nomination._id;
-  };
+const getRandomId = () => {
+  const totalNominations = Nominations.find().count();
+  const random = Math.floor(Random.fraction() * totalNominations);
+  const nomination = Nominations.findOne({},{
+    skip: random
+  });
+  return nomination && nomination._id;
+};
 
+export default function () {
   Meteor.publish('nominations.list', function (limit, sort) {
     check(limit, Number);
     check(sort, Object);
@@ -29,7 +29,7 @@ export default function () {
     // We pass a random number so the pub/sub under the hood doesnt get cached
     check(random, Number);
     const _id = getRandomId();
-    return Nominations.findOne(_id);
+    return Nominations.find({_id},{fields: {_id: 1, title: 1, likes: 1, createdAt: 1, creator: 1, youtubeId: 1, comment: 1, image: 1}});
   });
 
 }

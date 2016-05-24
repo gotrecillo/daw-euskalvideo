@@ -40,17 +40,43 @@ class Video extends React.Component {
     this.setState({ [key]: value});
   }
 
+  _handleKeyDown(e) {
+    if (e.keyCode === 27) {
+      return this._stopNominating.bind(this)();
+    }
+    if (e.keyCode === 13) {
+      return this._handleCreateNomination.bind(this)();
+    }
+  }
+
+  _handleCommentChange() {
+    const commentLength = this.refs.comment.getValue().length;
+    if (commentLength === 140) {
+      this.setState({errorText: 'Alcanzado máximo de 140 carácteres'});
+    } else if (this.state.errorText) {
+      this.setState({errorText: false});
+    }
+  }
+
+  _stopNominating() {
+    this.setState({
+      nominating: false,
+      errorText: false
+    });
+  }
+
   _handleCreateNomination() {
     const { video, createNomination } = this.props;
     const { id, title, image } = video;
     const comment = this.refs.comment.getValue();
     createNomination(title, id, image, comment);
-    this.setState({nominating: false});
+    this._stopNominating.bind(this)();
   }
 
 
   _getNominateDialog() {
     const { video } = this.props;
+    const { errorText } = this.state;
     const actions = [
       <FlatButton
         label="Cancelar"
@@ -68,7 +94,7 @@ class Video extends React.Component {
           title="Nominar el video"
           actions={actions}
           open={this.state.nominating}
-          onRequestClose={this._handleStateChange.bind(this, 'nominating', false)}
+          onRequestClose={this._stopNominating.bind(this)}
           >
           <h4>{`¿Quieres nominar el video: "${video.title}" ?`}</h4>
           <TextField
@@ -77,6 +103,10 @@ class Video extends React.Component {
             floatingLabelText="Dejanos tu comentario"
             multiLine={true}
             rows={4}
+            maxLength="140"
+            errorText={errorText}
+            onChange={this._handleCommentChange.bind(this)}
+            onKeyDown={this._handleKeyDown.bind(this)}
           />
       </Dialog>
     );

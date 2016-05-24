@@ -1,16 +1,16 @@
 import {Nominations, Likes} from '/lib/collections';
 import {Meteor} from 'meteor/meteor';
 import {check} from 'meteor/check';
+import { validNominationComment } from './validations';
 
 export default function () {
   Meteor.methods({
     'nominations.create'(title, youtubeId, image, comment = '') {
       const userId = Meteor.userId();
       const _id = Meteor.uuid();
-
       check(image, String);
       check(title, String);
-      check(comment, String);
+      check(comment, validNominationComment);
       check(youtubeId, String);
       check(userId, String);
 
