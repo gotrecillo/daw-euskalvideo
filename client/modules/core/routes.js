@@ -12,6 +12,7 @@ import NominationsList from '../videos/containers/nominations_list';
 import VideoSearcher from '../videos/containers/video_searcher';
 import Dashboard from '../dashboard/containers/dashboard';
 import Home from '../home/containers/home';
+import Profile from '../users/containers/profile';
 
 export default function (injectDeps, {FlowRouter, Meteor}) {
   const MainLayoutCtx = injectDeps(MainLayout);
@@ -22,48 +23,6 @@ export default function (injectDeps, {FlowRouter, Meteor}) {
     action() {
       mount(HomeLayoutCtx, {
         content: () => (<Home />)
-      });
-    }
-  });
-
-  FlowRouter.route('/app', {
-    name: 'app',
-    triggersEnter: [ function (context, redirect) {
-      if (!Meteor.userId()) {
-        redirect('/login');
-      }
-    } ],
-    action() {
-      mount(MainLayoutCtx, {
-        content: () => (<Dashboard />)
-      });
-    }
-  });
-
-  FlowRouter.route('/app/nominations', {
-    name: 'nominations',
-    triggersEnter: [ function (context, redirect) {
-      if (!Meteor.userId()) {
-        redirect('/login');
-      }
-    } ],
-    action() {
-      mount(MainLayoutCtx, {
-        content: () => (<NominationsList />)
-      });
-    }
-  });
-
-  FlowRouter.route('/app/nominate', {
-    name: 'app',
-    triggersEnter: [ function (context, redirect) {
-      if (!Meteor.userId()) {
-        redirect('/login');
-      }
-    } ],
-    action() {
-      mount(MainLayoutCtx, {
-        content: () => (<VideoSearcher />)
       });
     }
   });
@@ -81,6 +40,53 @@ export default function (injectDeps, {FlowRouter, Meteor}) {
       });
     }
   });
+
+  const appRoutes = FlowRouter.group({
+    prefix: '/app',
+    name: 'app',
+    triggersEnter: [ function (context, redirect) {
+      if (!Meteor.userId()) {
+        redirect('/login');
+      }
+    } ],
+  });
+
+  appRoutes.route('/', {
+    name: 'app',
+    action() {
+      mount(MainLayoutCtx, {
+        content: () => (<Dashboard />)
+      });
+    }
+  });
+
+  appRoutes.route('/nominations', {
+    name: 'nominations',
+    action() {
+      mount(MainLayoutCtx, {
+        content: () => (<NominationsList />)
+      });
+    }
+  });
+
+  appRoutes.route('/nominate', {
+    name: 'nominate',
+    action() {
+      mount(MainLayoutCtx, {
+        content: () => (<VideoSearcher />)
+      });
+    }
+  });
+
+  appRoutes.route('/profile', {
+    name: 'profile',
+    action() {
+      mount(MainLayoutCtx, {
+        content: () => (<Profile />)
+      });
+    }
+  });
+
 
   FlowRouter.route('/post/:postId', {
     name: 'posts.single',

@@ -1,44 +1,15 @@
 import { useDeps, composeWithTracker, composeAll } from 'mantra-core';
 import Component from '../components/dashboard';
 import Spinner from '../../core/components/spinner';
-import { formatNomination } from '../../videos/utils';
+import { counterComposer } from '../../videos/containers/nominations_list';
 
-const suscribeToRandomNominations = (Meteor, Nominations, onData) => (
-  Meteor.subscribe('nominations.random', Random.fraction(), function () {
-    const nomination = Nominations.findOne();
-    const formatedNomination = formatNomination(nomination);
-    onData(null, {nomination: formatedNomination});
-  }));
-
-export const composer = ({context, clearErrors}, onData) => {
-  const {Meteor, Collections} = context();
-  const {Nominations} = Collections;
-
-  // Load the first nomination at the start and get the handler to stop the sub
-  let handler = suscribeToRandomNominations(Meteor, Nominations, onData);
-
-  const interval = Meteor.setInterval(function () {
-    handler.stop();
-    handler = suscribeToRandomNominations(Meteor, Nominations, onData);
-  }, 10000);
-
-  const cleanUp = () => {
-    Meteor.clearInterval(interval);
-    handler.stop();
-  };
-
-  return cleanUp;
-
-};
 
 export const depsMapper = (context, actions) => ({
-  like: actions.nominations.like,
-  unlike: actions.nominations.unlike,
-  clearErrors: actions.nominations.clearErrors,
-  context: () => context
+  navigate: actions.navigate.navigate,
+  context: () => context,
 });
 
 export default composeAll(
-  composeWithTracker(composer, Spinner),
+  composeWithTracker(counterComposer, Spinner),
   useDeps(depsMapper)
 )(Component);

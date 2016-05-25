@@ -32,6 +32,7 @@ export const counterComposer = ({context, clearErrors}, onData) => {
     onData(null, {totalNominations});
   }
 };
+
 export const depsMapper = (context, actions) => ({
   loadMoreNominations: actions.nominations.loadMoreNominations,
   clearErrors: actions.nominations.clearErrors,

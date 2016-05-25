@@ -12,7 +12,7 @@ const Layout = ({content = () => null }) => (
   <MuiThemeProvider muiTheme={lightMuiTheme}>
     <div>
       <AppBar
-        title="Euskal Videos"
+        title="EK Videos"
         showMenuIconButton={false}
         iconElementRight={<Menu/>}
       />

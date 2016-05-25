@@ -11,6 +11,9 @@ const getRandomId = () => {
   return nomination && nomination._id;
 };
 
+
+
+
 export default function () {
   Meteor.publish('nominations.list', function (limit, sort) {
     check(limit, Number);
@@ -25,15 +28,16 @@ export default function () {
     return Nominations.find(selector, options);
   });
 
+
+  Meteor.publish('nominations.count',function () {
+    /* global Counts:true */
+    Counts.publish(this, 'nominations', Nominations.find());
+  });
+
   Meteor.publish('nominations.random',function (random) {
     // We pass a random number so the pub/sub under the hood doesnt get cached
     check(random, Number);
     const _id = getRandomId();
     return Nominations.find({_id},{fields: {_id: 1, title: 1, likes: 1, createdAt: 1, creator: 1, youtubeId: 1, comment: 1, image: 1}});
-  });
-
-  Meteor.publish('nominations.count',function () {
-    /* global Counts:true */
-    Counts.publish(this, 'nominations', Nominations.find());
   });
 }
