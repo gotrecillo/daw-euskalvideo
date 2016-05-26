@@ -38,13 +38,22 @@ export default {
   },
 
   updateProfile({Meteor, LocalState}, imgUrl, displayName) {
-    console.log('action');
     LocalState.set('UPDATED_PROFILE', false);
-    Meteor.call('user.updateProfile', imgUrl, displayName, (err) => {
+    Meteor.call('user.updateProfile', imgUrl, displayName, err => {
       if (err) {
         return LocalState.set('UPDATE_PROFILE_ERROR', 'Error al guardar los datos');
       }
       LocalState.set('UPDATED_PROFILE', true);
+    });
+  },
+
+  changePassword({Accounts, LocalState}, oldPassword, newPassword) {
+    LocalState.set('UPDATED_PASSWORD', false);
+    Accounts.changePassword(oldPassword, newPassword, err => {
+      if (err) {
+        return LocalState.set('UPDATE_PASSWORD_ERROR', 'Fallo al cambiar la contraseña');
+      }
+      LocalState.set('UPDATED_PASSWORD', true);
     });
   },
 

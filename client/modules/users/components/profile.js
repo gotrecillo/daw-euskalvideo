@@ -5,6 +5,9 @@ import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import Snackbar from 'material-ui/Snackbar';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+
 import { styles } from './styles';
 
 export default class Profile extends React.Component {
@@ -17,7 +20,10 @@ export default class Profile extends React.Component {
       fileName: 'Elige un avatar',
       avatar: props.user.profile.imgUrl,
       saved: false,
+      savedPassword: false,
       saving: false,
+      changingPasswordModalOpen: false,
+      passwordConfirmError: false,
     };
   }
 
@@ -30,6 +36,19 @@ export default class Profile extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
+    if (!newProps.user) {
+      return; // No warning if logging out
+    }
+
+    if (newProps.updatedPassword) {
+      this.setState(
+        {
+          changingPasswordModalOpen: false,
+          savedPassword: true
+        }
+      );
+    }
+
     const newState = (this.state.saving) ?
       {
         name: newProps.user.profile.displayName,
@@ -95,6 +114,35 @@ export default class Profile extends React.Component {
     this.setState({ saved: false});
   }
 
+  _handlePassSnackRequestClose() {
+    this.setState({savedPassword: false});
+  }
+
+  _handleChangePasswordButtonTouchTap() {
+    this.setState({
+      changingPasswordModalOpen: true,
+    });
+  }
+
+  _stopChangingPassword() {
+    this.setState({
+      changingPasswordModalOpen: false,
+    });
+  }
+
+  _startSubmitingPassword() {
+    const { changePassword } = this.props;
+    const oldPassword = this.refs.oldPassword.getValue();
+    const newPassword = this.refs.newPassword.getValue();
+    const confirmPassword = this.refs.confirmPassword.getValue();
+    if (newPassword !== confirmPassword) {
+      this.setState({passwordConfirmError: 'Las contraseñas deben coincidir'});
+    } else {
+      this.setState({passwordConfirmError: false});
+      changePassword(oldPassword, newPassword);
+    }
+  }
+
   stopEditing() {
     this.setState({
       editing: false,
@@ -103,17 +151,26 @@ export default class Profile extends React.Component {
     });
   }
 
-  render() {
-    const { width, fileName, avatar, saved } = this.state;
-    const avatarWidth = width <= 266 ? width - 66 : 200;
-    const { editing } = this.state;
+  _getContent() {
+    const { editing, fileName } = this.state;
+    const { hasPassword } = this.props;
+    const changePasswordButton = hasPassword ?
+      <RaisedButton
+        style={{margin: '0.4em'}}
+        label='Cambiar Contraseña'
+        onTouchTap={this._handleChangePasswordButtonTouchTap.bind(this)}/> :
+      null;
 
-    const content = !editing ?
-        <div>
+    if (!editing) {
+      return (<div>
           <CardTitle title={this.state.name}/>
-          <RaisedButton style={{margin: '0.4em'}} label='Cambiar Contraseña' onTouchTap={this._handleEditButtonTouchTap.bind(this)}/>
+            { changePasswordButton }
           <RaisedButton style={{margin: '0.4em'}} label='Editar' onTouchTap={this._handleEditButtonTouchTap.bind(this)}/>
-        </div> :
+        </div>);
+    }
+
+    if (editing) {
+      return (
         <div style={styles.surnameTitle}>
           <TextField
             ref="displayName"
@@ -153,7 +210,30 @@ export default class Profile extends React.Component {
             primary
             style={styles.button}
             label="Cancelar"/>
-        </div>;
+        </div>
+      );
+    }
+  }
+
+  render() {
+    const { error } = this.props;
+    const { width, avatar, saved, changingPasswordModalOpen, passwordConfirmError, savedPassword } = this.state;
+    const avatarWidth = width <= 266 ? width - 66 : 200;
+
+    const content = this._getContent.bind(this)();
+
+    const passwordActions = [
+      <FlatButton
+        label="Cancelar"
+        primary
+        onTouchTap={this._stopChangingPassword.bind(this)}
+      />,
+      <FlatButton
+        label="Cambiar"
+        primary
+        onTouchTap={this._startSubmitingPassword.bind(this)}
+      />,
+    ];
 
     return (
       <Card style={styles.cardContainer}>
@@ -163,6 +243,40 @@ export default class Profile extends React.Component {
           key={avatar}
         />
         {content}
+        <Dialog
+          title="Cambiar Contraseña"
+          actions={passwordActions}
+          modal={false}
+          open={changingPasswordModalOpen}
+          onRequestClose={this._stopChangingPassword.bind(this)}
+        >
+          <TextField
+            hintText="Contraseña actual"
+            ref="oldPassword"
+            fullWidth
+            floatingLabelText="Contraseña actual"
+            type="password"
+          />
+          <TextField
+            hintText="Contraseña nueva"
+            ref="newPassword"
+            errorText={passwordConfirmError}
+            fullWidth
+            floatingLabelText="Contraseña nueva"
+            type="password"
+          />
+          <TextField
+            hintText="Confirmar contraseña"
+            ref="confirmPassword"
+            errorText={passwordConfirmError}
+            fullWidth
+            floatingLabelText="Confirmar contraseña"
+            type="password"
+          />
+          <div style={{textAlign: 'center', color: 'red'}}>
+            {error}
+          </div>
+        </Dialog>
         <Snackbar
           open={saved}
           message="Perfil actualizado"
@@ -170,6 +284,14 @@ export default class Profile extends React.Component {
           autoHideDuration={2000}
           onActionTouchTap={this._handleSnackRequestClose.bind(this)}
           onRequestClose={this._handleSnackRequestClose.bind(this)}
+        />
+        <Snackbar
+          open={savedPassword}
+          message="Contraseña actualizada"
+          action="X"
+          autoHideDuration={2000}
+          onActionTouchTap={this._handlePassSnackRequestClose.bind(this)}
+          onRequestClose={this._handlePassSnackRequestClose.bind(this)}
         />
       </Card>
     );

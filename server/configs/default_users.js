@@ -12,10 +12,13 @@ const users = [
 export default () => {
   if (Meteor.users.find().count() === 0) {
     users.forEach(user => {
-      const { username, name, email, roles } = user;
+      const { username, email, roles } = user;
       const id = Accounts.createUser({
         password: 'euskal',
-        profile: {username, name},
+        profile: {
+          displayName: username,
+          imgUrl: '/images/avatars/default.jpg'
+        },
         email,
       });
       if (user.roles.length > 0) {
