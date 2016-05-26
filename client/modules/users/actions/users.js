@@ -21,6 +21,8 @@ export default {
 
     const providerMethod = loginMethods[provider];
 
+    // We cant use callback when style is redirect
+    // We use redirect style because mobile web browsers doesnt work otherwise
     providerMethod( err => {
       if (err) {
         return LocalState.set('LOGIN_ERROR', `Error en el login con ${provider}`);
@@ -32,6 +34,17 @@ export default {
   logout({Meteor, FlowRouter}) {
     Meteor.logout(() => {
       FlowRouter.go('/login');
+    });
+  },
+
+  updateProfile({Meteor, LocalState}, imgUrl, displayName) {
+    console.log('action');
+    LocalState.set('UPDATED_PROFILE', false);
+    Meteor.call('user.updateProfile', imgUrl, displayName, (err) => {
+      if (err) {
+        return LocalState.set('UPDATE_PROFILE_ERROR', 'Error al guardar los datos');
+      }
+      LocalState.set('UPDATED_PROFILE', true);
     });
   },
 

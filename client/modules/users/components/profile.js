@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
+import Snackbar from 'material-ui/Snackbar';
 import { styles } from './styles';
 
 export default class Profile extends React.Component {
@@ -12,9 +13,11 @@ export default class Profile extends React.Component {
     this.state = {
       resizeHandler: this._updateDimensions.bind(this),
       editing: false,
-      name: 'Peter Pan',
+      name: props.user.profile.displayName,
       fileName: 'Elige un avatar',
-      avatar: 'http://lorempixel.com/100/100/nature/',
+      avatar: props.user.profile.imgUrl,
+      saved: false,
+      saving: false,
     };
   }
 
@@ -24,6 +27,23 @@ export default class Profile extends React.Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.state.resizeHandler);
+  }
+
+  componentWillReceiveProps(newProps) {
+    const newState = (this.state.saving) ?
+      {
+        name: newProps.user.profile.displayName,
+        avatar: newProps.user.profile.imgUrl,
+        saved: true,
+        saving: false,
+      } : {
+        name: newProps.user.profile.displayName,
+        avatar: newProps.user.profile.imgUrl,
+        saved: false,
+        saving: false,
+      };
+
+    this.setState(newState);
   }
 
   componentWillUnmount() {
@@ -46,7 +66,11 @@ export default class Profile extends React.Component {
   }
 
   _handleRequestSaveSettings() {
-    console.log('save');
+    const { updateProfile } = this.props;
+    const { avatar } = this.state;
+    const name = this.refs.displayName.getValue();
+    this.setState({editing: false, saving: true});
+    updateProfile(avatar, name);
   }
 
   _handleRequestCancelSettings() {
@@ -67,23 +91,28 @@ export default class Profile extends React.Component {
     reader.readAsDataURL(file);
   }
 
+  _handleSnackRequestClose() {
+    this.setState({ saved: false});
+  }
+
   stopEditing() {
     this.setState({
       editing: false,
-      name: 'Peter Pan',
-      avatar: 'http://lorempixel.com/100/100/nature/',
+      name: this.props.user.profile.displayName,
+      avatar: this.props.user.profile.imgUrl,
     });
   }
 
   render() {
-    const { width, fileName, avatar } = this.state;
+    const { width, fileName, avatar, saved } = this.state;
     const avatarWidth = width <= 266 ? width - 66 : 200;
     const { editing } = this.state;
 
     const content = !editing ?
         <div>
           <CardTitle title={this.state.name}/>
-          <RaisedButton label='Editar' onTouchTap={this._handleEditButtonTouchTap.bind(this)}/>
+          <RaisedButton style={{margin: '0.4em'}} label='Cambiar Contraseña' onTouchTap={this._handleEditButtonTouchTap.bind(this)}/>
+          <RaisedButton style={{margin: '0.4em'}} label='Editar' onTouchTap={this._handleEditButtonTouchTap.bind(this)}/>
         </div> :
         <div style={styles.surnameTitle}>
           <TextField
@@ -131,10 +160,28 @@ export default class Profile extends React.Component {
         <Avatar
           size={avatarWidth}
           src={avatar}
+          key={avatar}
         />
         {content}
+        <Snackbar
+          open={saved}
+          message="Perfil actualizado"
+          action="X"
+          autoHideDuration={2000}
+          onActionTouchTap={this._handleSnackRequestClose.bind(this)}
+          onRequestClose={this._handleSnackRequestClose.bind(this)}
+        />
       </Card>
     );
   }
 
 }
+
+Profile.defaultProps = {
+  user: {
+    profile: {
+      displayName: 'Loading...',
+      imageUrl: 'http://www.oalaska.com/wp-content/themes/pointfinder/images/empty_avatar.jpg',
+    }
+  }
+};

@@ -3,12 +3,18 @@ import Spinner from '../../core/components/spinner';
 import Component from '../components/profile';
 
 export const composer = ({context, clearErrors}, onData) => {
-  onData(null, {});
+  const {Meteor} = context();
+  const user = Meteor.user();
+  const currentUser = Boolean(Meteor.user());
+  const loggingIn = Meteor.loggingIn();
+  onData(null, { user, loggingIn, currentUser });
 
   return clearErrors;
 };
 
-export const depsMapper = (context) => ({
+
+export const depsMapper = (context, actions) => ({
+  updateProfile: actions.users.updateProfile,
   context: () => context,
 });
 
