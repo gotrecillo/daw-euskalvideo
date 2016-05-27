@@ -23,7 +23,7 @@ export const composer = ({context, clearErrors}, onData) => {
   return clearErrors;
 };
 
-export const counterComposer = ({context, clearErrors}, onData) => {
+export const nominationsCounterComposer = ({context, clearErrors}, onData) => {
   const {Meteor} = context();
   const subscription = Meteor.subscribe('nominations.count');
   if (subscription.ready()) {
@@ -44,6 +44,6 @@ export const depsMapper = (context, actions) => ({
 
 export default composeAll(
   composeWithTracker(composer, Spinner),
-  composeWithTracker(counterComposer, Spinner),
+  composeWithTracker(nominationsCounterComposer, Spinner),
   useDeps(depsMapper)
 )(Component);

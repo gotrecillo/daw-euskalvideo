@@ -5,7 +5,7 @@ import { style } from './styles';
 
 export default class DashBoard extends React.Component {
   render() {
-    const { totalNominations, navigate } = this.props;
+    const { totalNominations, onlineUsers, navigate } = this.props;
     return (
       <div style={style.info.container}>
         <DashBoardStat
@@ -22,7 +22,7 @@ export default class DashBoard extends React.Component {
           label="chatea"
           path='/app/nominations'
           navigate={navigate}
-          number={totalNominations}
+          number={onlineUsers}
         />
         <DashBoardStat
           icon="video-camera"
