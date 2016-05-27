@@ -5,17 +5,16 @@ import Spinner from '../../core/components/spinner';
 export const composer = ({context, clearErrors}, onData) => {
   const { Meteor, Collections } = context();
 
-  Meteor.subscribe('messages.list', () => {
-    console.log('subscribed');
-    const messages = Collections.Messages.find().fetch() || [];
+  if (Meteor.subscribe('messages.list').ready()) {
+    const messages = Collections.Messages.find({}, {sort: {createdAt: -1}}).fetch() || [];
     onData(null, {messages});
-  });
-
-  onData(null, {messages: []});
+  }
 };
 
-export const depsMapper = (context) => ({
-  context: () => context
+export const depsMapper = (context, actions) => ({
+  context: () => context,
+  createMessage: actions.messages.createMessage,
+  messages: [],
 });
 
 export default composeAll(

@@ -7,6 +7,7 @@ export default function () {
     const date = new Date();
 
     const selector = {
+      createdAt: { $gt: date },
     };
 
     const options = {

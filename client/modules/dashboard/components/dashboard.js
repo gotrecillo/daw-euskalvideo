@@ -20,7 +20,7 @@ export default class DashBoard extends React.Component {
           icon="users"
           text="Usuarios conectados:"
           label="chatea"
-          path='/app/nominations'
+          path='/app/chat'
           navigate={navigate}
           number={onlineUsers}
         />
