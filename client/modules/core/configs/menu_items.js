@@ -3,6 +3,9 @@ export const loggedItems = [
     text: 'Inicio', path: 'app'
   },
   {
+    text: 'Chat', path: 'app/chat'
+  },
+  {
     text: 'Proponer', path: 'app/nominate'
   },
   {

@@ -1,16 +1,19 @@
 import { useDeps, composeWithTracker, composeAll } from 'mantra-core';
-import Component from '../components/home';
+import Component from '../components/chat';
 import Spinner from '../../core/components/spinner';
-import configs from '../configs';
 
 export const composer = ({context, clearErrors}, onData) => {
-  onData(null, {});
+  const { Meteor, Collections } = context();
+
+  Meteor.subscribe('messages.list', () => {
+    const messages = Collections.Messages.find().fetch() || [];
+    onData(null, {messages});
+  });
+
+  onData(null, {messages: []});
 };
 
-export const depsMapper = (context, actions) => ({
-  features: configs.features,
-  social: configs.social,
-  navigate: actions.navigate.navigate,
+export const depsMapper = (context) => ({
   context: () => context
 });
 

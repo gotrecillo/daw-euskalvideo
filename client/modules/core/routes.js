@@ -13,6 +13,7 @@ import VideoSearcher from '../videos/containers/video_searcher';
 import Dashboard from '../dashboard/containers/dashboard';
 import Home from '../home/containers/home';
 import Profile from '../users/containers/profile';
+import Chat from '../chat/containers/chat';
 
 export default function (injectDeps, {FlowRouter, Meteor}) {
   const MainLayoutCtx = injectDeps(MainLayout);
@@ -87,6 +88,14 @@ export default function (injectDeps, {FlowRouter, Meteor}) {
     }
   });
 
+  appRoutes.route('/chat', {
+    name: 'chat',
+    action() {
+      mount(MainLayoutCtx, {
+        content: () => (<Chat />)
+      });
+    }
+  });
 
   FlowRouter.route('/post/:postId', {
     name: 'posts.single',
