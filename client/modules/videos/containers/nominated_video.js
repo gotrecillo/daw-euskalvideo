@@ -4,8 +4,9 @@ import React from 'react';
 
 export const composer = ({context, clearErrors, idNomination}, onData) => {
   const {Meteor, Collections} = context();
+  const userId = Meteor.userId();
   if (Meteor.subscribe('likes.single', idNomination).ready()) {
-    if (Collections.Likes.findOne({idNomination})) {
+    if (Collections.Likes.findOne({idNomination, userId})) {
       onData(null, {liked: true});
     }else {
       onData(null, {liked: false});

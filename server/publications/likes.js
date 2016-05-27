@@ -7,7 +7,7 @@ export default function () {
     check(idNomination, String);
     const selector = {idNomination};
     const options = {
-      fields: {_id: 1, idNomination: 1},
+      fields: {_id: 1, idNomination: 1, userId: 1},
     };
 
     return Likes.find(selector, options);
