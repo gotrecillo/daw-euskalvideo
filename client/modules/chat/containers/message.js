@@ -4,7 +4,10 @@ import Spinner from '../../core/components/spinner';
 
 export const composer = ({context, clearErrors, creatorId}, onData) => {
   const { Meteor } = context();
-  if (Meteor.subscribe('user.profile', creatorId).ready()) {
+  if (creatorId === Meteor.userId()) {
+    const creator = Meteor.users.findOne(creatorId);
+    onData(null, { creator });
+  } else if (Meteor.subscribe('user.profile', creatorId).ready()) {
     const creator = Meteor.users.findOne(creatorId);
     onData(null, { creator });
   }
