@@ -10,7 +10,8 @@ export default function () {
       check(text, String);
       const createdAt = new Date();
       const message = { creator: userId, text, createdAt, received: true };
-      Meteor._sleepForMs(3500);
+      // DEMO
+      // Meteor._sleepForMs(3500);
       Messages.insert(message);
     },
 
