@@ -8,7 +8,10 @@ import { styles } from './styles';
 export default class Chat extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { message: ''};
+    this.state = {
+      messageText: '',
+      watchingUsers: false,
+    };
   }
 
   _handleKeyDown(e) {
@@ -23,7 +26,7 @@ export default class Chat extends React.Component {
 
   _handleChange(event) {
     this.setState({
-      message: event.target.value,
+      messageText: event.target.value,
     });
   }
   _handleTouchTap() {
@@ -34,12 +37,12 @@ export default class Chat extends React.Component {
     const { createMessage } = this.props;
     const message = this.refs.message.getValue();
     createMessage(message);
-    this.setState({ message: '' });
+    this.setState({ messageText: '' });
   }
 
   render() {
     const { messages } = this.props;
-    const { message } = this.state;
+    const { messageText } = this.state;
     return (
       <div>
         <Paper style={styles.containerInput}>
@@ -48,7 +51,7 @@ export default class Chat extends React.Component {
             onKeyDown={this._handleKeyDown.bind(this)}
             style={styles.textInput}
             fullWidth
-            value={message}
+            value={messageText}
             onChange={this._handleChange.bind(this)}
             maxLength="140"
             hintText="Escribir mensaje"

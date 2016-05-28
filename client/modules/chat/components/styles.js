@@ -1,3 +1,5 @@
+import { grey300, grey400, grey500 } from 'material-ui/styles/colors';
+
 export const styles = {
   containerInput: {
     display: 'flex',
@@ -36,11 +38,16 @@ export const styles = {
     margin: '0.2em 0'
   },
   messageTime: {
-    textAlign: 'right', color: 'grey'
+    textAlign: 'right', color: grey500
   },
   messageSeparator: {
     margin: '0px',
     color: 'grey',
-    border: '1px solid lightgrey'
+    border: `1px solid ${grey300}`
   },
+  tick: {
+    fontSize: '16px',
+    marginRight: '0.5em',
+    color: grey400,
+  }
 };

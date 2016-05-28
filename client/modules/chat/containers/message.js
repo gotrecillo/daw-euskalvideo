@@ -4,8 +4,10 @@ import Spinner from '../../core/components/spinner';
 
 export const composer = ({context, clearErrors, creatorId}, onData) => {
   const { Meteor } = context();
-  const creator = Meteor.users.findOne(creatorId);
-  onData(null, { creator });
+  if (Meteor.subscribe('user.profile', creatorId).ready()) {
+    const creator = Meteor.users.findOne(creatorId);
+    onData(null, { creator });
+  }
 };
 
 export const depsMapper = (context) => ({

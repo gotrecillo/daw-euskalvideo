@@ -5,6 +5,7 @@ import nominations from './nominations';
 import presence from './presence';
 import messages from './messages';
 import likes from './likes';
+import users from './users';
 
 export default function () {
   posts();
@@ -14,4 +15,5 @@ export default function () {
   nominations();
   messages();
   likes();
+  users();
 }
